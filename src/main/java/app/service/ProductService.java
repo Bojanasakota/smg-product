@@ -35,10 +35,9 @@ public class ProductService {
 
     public Product createProduct(ProductRequest product) {
         Product savedProduct = productRepository.save(new Product(product));
-        String productID = UUID.randomUUID().toString();
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(savedProduct.getId(),
                 savedProduct.getName(), savedProduct.getPrice());
-        kafkaTemplate.send(productTopic, productID, productCreatedEvent);
+        kafkaTemplate.send(productTopic, savedProduct.getId().toString(), productCreatedEvent);
         return savedProduct;
     }
 
