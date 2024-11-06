@@ -33,6 +33,7 @@ public class ProductService {
         this.productTopic = productTopic;
     }
 
+    @Transactional
     public Product createProduct(ProductRequest product) {
         Product savedProduct = productRepository.save(new Product(product));
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(savedProduct.getId(),
